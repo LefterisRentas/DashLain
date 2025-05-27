@@ -11,8 +11,8 @@ public sealed class DbMasterRecord {
     public Guid Id { get; set; } = Guid.CreateVersion7();
 
     [Required]
-    public byte[] Hash { get; set; } = Array.Empty<byte>();
+    public byte[] Hash { get; set; } = [];
 
     [Required]
-    public byte[] Salt { get; set; } = Array.Empty<byte>();
+    public byte[] Salt { get; set; } = [];
 }
