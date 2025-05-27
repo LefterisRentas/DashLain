@@ -1,0 +1,5 @@
+﻿{
+  "ConnectionStrings": {
+    "DashLainDb": "Data Source=dashlain.db"
+  }
+}
