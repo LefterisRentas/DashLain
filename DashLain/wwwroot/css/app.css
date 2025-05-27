@@ -1,4 +1,6 @@
-﻿/*#if (SampleContent)*/
+﻿@import "tailwindcss";
+
+/*#if (SampleContent)*/
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }

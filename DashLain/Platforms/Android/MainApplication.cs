@@ -1,4 +1,7 @@
-﻿namespace DashLain;
+﻿using Android.App;
+using Android.Runtime;
+
+namespace DashLain;
 
 [Application]
 public class MainApplication : MauiApplication {
