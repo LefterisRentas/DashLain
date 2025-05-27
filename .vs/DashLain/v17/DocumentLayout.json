@@ -7,12 +7,20 @@
       "RelativeMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|solutionrelative:dashlain\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|c:\\users\\efthymiosskouras\\source\\repos\\dashlain\\dashlain\\data\\models\\dbtag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|solutionrelative:dashlain\\data\\models\\dbtag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|c:\\users\\efthymiosskouras\\source\\repos\\dashlain\\dashlain\\dashlain.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|solutionrelative:dashlain\\dashlain.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|c:\\users\\efthymiosskouras\\source\\repos\\dashlain\\dashlain\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|solutionrelative:dashlain\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|c:\\users\\efthymiosskouras\\source\\repos\\dashlain\\dashlain\\data\\models\\dbtag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|solutionrelative:dashlain\\data\\models\\dbtag.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|c:\\users\\efthymiosskouras\\source\\repos\\dashlain\\dashlain\\data\\models\\dbmasterrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|solutionrelative:dashlain\\data\\models\\dbmasterrecord.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|c:\\users\\efthymiosskouras\\source\\repos\\dashlain\\dashlain\\data\\models\\dbentry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -21,10 +29,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|c:\\users\\efthymiosskouras\\source\\repos\\dashlain\\dashlain\\data\\models\\dbcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|solutionrelative:dashlain\\data\\models\\dbcategory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|c:\\users\\efthymiosskouras\\source\\repos\\dashlain\\dashlain\\dashlain.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{BB00433D-C0DB-44CC-B914-6AC5D86C849A}|DashLain\\DashLain.csproj|solutionrelative:dashlain\\dashlain.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\packs\\Microsoft.Android.Sdk.Windows\\35.0.61\\tools\\Xamarin.Android.Tooling.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
@@ -40,7 +44,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -80,13 +84,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
+              "Title": "DbMasterRecord.cs",
+              "DocumentMoniker": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\Data\\Models\\DbMasterRecord.cs",
+              "RelativeDocumentMoniker": "DashLain\\Data\\Models\\DbMasterRecord.cs",
+              "ToolTip": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\Data\\Models\\DbMasterRecord.cs",
+              "RelativeToolTip": "DashLain\\Data\\Models\\DbMasterRecord.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T18:28:28.816Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "DbEntry.cs",
               "DocumentMoniker": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\Data\\Models\\DbEntry.cs",
               "RelativeDocumentMoniker": "DashLain\\Data\\Models\\DbEntry.cs",
               "ToolTip": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\Data\\Models\\DbEntry.cs",
               "RelativeToolTip": "DashLain\\Data\\Models\\DbEntry.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABoAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-27T17:33:08.097Z",
               "EditorCaption": ""
@@ -99,7 +116,7 @@
               "RelativeDocumentMoniker": "DashLain\\MauiProgram.cs",
               "ToolTip": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\MauiProgram.cs",
               "RelativeToolTip": "DashLain\\MauiProgram.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABYAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-27T17:21:40.373Z",
               "EditorCaption": ""
@@ -112,14 +129,14 @@
               "RelativeDocumentMoniker": "DashLain\\Data\\AppDbContext.cs",
               "ToolTip": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\Data\\AppDbContext.cs",
               "RelativeToolTip": "DashLain\\Data\\AppDbContext.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAQAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAABUAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-27T17:40:36.853Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "dashlain.json",
               "DocumentMoniker": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\dashlain.json",
               "RelativeDocumentMoniker": "DashLain\\dashlain.json",
@@ -132,20 +149,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "DbCategory.cs",
               "DocumentMoniker": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\Data\\Models\\DbCategory.cs",
               "RelativeDocumentMoniker": "DashLain\\Data\\Models\\DbCategory.cs",
               "ToolTip": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\Data\\Models\\DbCategory.cs",
               "RelativeToolTip": "DashLain\\Data\\Models\\DbCategory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-27T17:38:52.52Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "Microsoft.UI.Xaml.Markup.Compiler.interop.targets",
               "DocumentMoniker": "C:\\Users\\EfthymiosSkouras\\.nuget\\packages\\microsoft.windowsappsdk\\1.6.250205002\\buildTransitive\\Microsoft.UI.Xaml.Markup.Compiler.interop.targets",
               "RelativeDocumentMoniker": "..\\..\\..\\.nuget\\packages\\microsoft.windowsappsdk\\1.6.250205002\\buildTransitive\\Microsoft.UI.Xaml.Markup.Compiler.interop.targets",
@@ -158,7 +175,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
+              "Title": "DbTag.cs",
+              "DocumentMoniker": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\Data\\Models\\DbTag.cs",
+              "RelativeDocumentMoniker": "DashLain\\Data\\Models\\DbTag.cs",
+              "ToolTip": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\Data\\Models\\DbTag.cs",
+              "RelativeToolTip": "DashLain\\Data\\Models\\DbTag.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-27T17:39:29.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Xamarin.Android.Tooling.targets",
               "DocumentMoniker": "C:\\Program Files\\dotnet\\packs\\Microsoft.Android.Sdk.Windows\\35.0.61\\tools\\Xamarin.Android.Tooling.targets",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files\\dotnet\\packs\\Microsoft.Android.Sdk.Windows\\35.0.61\\tools\\Xamarin.Android.Tooling.targets",
@@ -167,19 +197,6 @@
               "ViewState": "AgIAAC0AAAAAAAAAAAApwDgAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
               "WhenOpened": "2025-05-27T17:22:29.899Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "DbTag.cs",
-              "DocumentMoniker": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\Data\\Models\\DbTag.cs",
-              "RelativeDocumentMoniker": "DashLain\\Data\\Models\\DbTag.cs",
-              "ToolTip": "C:\\Users\\EfthymiosSkouras\\source\\repos\\DashLain\\DashLain\\Data\\Models\\DbTag.cs",
-              "RelativeToolTip": "DashLain\\Data\\Models\\DbTag.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-27T17:39:29.765Z",
               "EditorCaption": ""
             }
           ]

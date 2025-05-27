@@ -5,6 +5,8 @@ namespace DashLain.Data;
 public class AppDbContext : DbContext {
     public DbSet<DbEntry> Entries => Set<DbEntry>();
 
+    public DbSet<DbMasterRecord> MasterRecords => Set<DbMasterRecord>();
+
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -30,5 +32,7 @@ public class AppDbContext : DbContext {
         builder.Entity<DbTag>().ToTable("tags");
 
         builder.Entity<DbCategory>().ToTable("categories");
+
+        builder.Entity<DbMasterRecord>().ToTable("master-record");
     }
 }

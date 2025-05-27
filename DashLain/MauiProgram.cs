@@ -1,4 +1,5 @@
 ﻿using DashLain.Data;
+using DashLain.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -11,17 +12,9 @@ public static class MauiProgram {
     {
         var builder = MauiApp.CreateBuilder();
 
-        var workingDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
-        var configBuilder = new ConfigurationBuilder()
-            .AddJsonFile(Path.Combine(workingDirectory, "dashlain.json"))
-            .Build();
-        builder.Configuration.AddConfiguration(configBuilder);
+        builder.AddConfigurationDefaults();
 
-        var dbConnectionString = builder.Configuration.GetConnectionString("DashLainDb");
-        builder.Services.AddDbContext<AppDbContext>(x =>
-        {
-            x.UseSqlite(dbConnectionString);
-        });
+        builder.AddSqliteDefaults();
 
         builder
             .UseMauiApp<App>()
@@ -35,12 +28,6 @@ public static class MauiProgram {
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
-
-        var dbOptions = new DbContextOptionsBuilder<AppDbContext>()
-            .UseSqlite(dbConnectionString)
-            .Options;
-        using var db = new AppDbContext(dbOptions);
-        db.Database.EnsureCreated();
 #endif
 
         return builder.Build();
