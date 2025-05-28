@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace DashLain.Data.Models;
+namespace DashLain.Entities.Models;
 public sealed class DbMasterPasswordAuth {
     [Key]
     public Guid ProfileId { get; set; }

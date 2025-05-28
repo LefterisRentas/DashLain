@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DashLain.Data.Models;
+namespace DashLain.Entities.Models;
 public sealed class DbProfile {
     [Key]
     public Guid Id { get; set; }

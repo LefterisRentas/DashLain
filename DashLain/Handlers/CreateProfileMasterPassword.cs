@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DashLain.Handlers;
 
-public sealed class CreateProfileMasterPasswordCommand : IRequest<Result<Profile>> {
+public sealed class CreateProfileMasterPasswordCommand : IRequest<UIResult<Profile>> {
     public string Name { get; set; }
 
     public string Password { get; set; }
@@ -21,7 +21,7 @@ public sealed class Profile
     public string Name { get; set; }
 }
 
-public sealed class CreateProfileMasterPasswordHandler : IRequestHandler<CreateProfileMasterPasswordCommand, Result<Profile>> {
+public sealed class CreateProfileMasterPasswordHandler : IRequestHandler<CreateProfileMasterPasswordCommand, UIResult<Profile>> {
     readonly ProfileService _profileService;
 
     public CreateProfileMasterPasswordHandler(ProfileService profileService)
@@ -29,7 +29,7 @@ public sealed class CreateProfileMasterPasswordHandler : IRequestHandler<CreateP
         _profileService = profileService;
     }
 
-    public async Task<Result<Profile>> Handle(CreateProfileMasterPasswordCommand request, CancellationToken cancellationToken)
+    public async Task<UIResult<Profile>> Handle(CreateProfileMasterPasswordCommand request, CancellationToken cancellationToken)
     {
         return await _profileService.CreateProfileWithMasterPassword(request);
     }

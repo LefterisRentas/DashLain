@@ -1,7 +1,8 @@
-﻿using DashLain.Data;
-using DashLain.Data.Models;
+﻿using DashLain.Entities;
+using DashLain.Entities.Models;
 using DashLain.Handlers;
 using DashLain.Models;
+using DashLain.State;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -13,18 +14,20 @@ namespace DashLain.Services;
 public sealed class ProfileService {
     readonly AppDbContext _context;
     readonly MasterPasswordService _masterPasswordService;
+    readonly Cryptographer _cryptographer;
 
-    public ProfileService(AppDbContext context, MasterPasswordService masterPasswordService)
+    public ProfileService(AppDbContext context, MasterPasswordService masterPasswordService, Cryptographer cryptographer)
     {
         _context = context;
         _masterPasswordService = masterPasswordService;
+        _cryptographer = cryptographer;
     }
 
-    public async Task<Result<Profile>> CreateProfileWithMasterPassword(CreateProfileMasterPasswordCommand command)
+    public async Task<UIResult<Profile>> CreateProfileWithMasterPassword(CreateProfileMasterPasswordCommand command)
     {
         if (await _context.Profiles.AnyAsync(p => p.Name == command.Name))
         {
-            return Result<Profile>.Fail(["Profile name already exists."]);
+            return UIResult.Fail<Profile>(["Profile name already exists."]);
         }
 
         var (hash, salt) = _masterPasswordService.ComputeHash(command.Password);
@@ -47,10 +50,10 @@ public sealed class ProfileService {
         _context.Profiles.Add(profile);
         await _context.SaveChangesAsync();
 
-        return Result<Profile>.Succeed(new Profile { Name = profile.Name});
+        return UIResult.Succeed(new Profile { Name = profile.Name});
     }
 
-    public async Task<Result<LoginResult>> LoginWithMasterPassword(LoginMasterPasswordCommand command)
+    public async Task<UIResult<bool>> LoginWithMasterPassword(LoginMasterPasswordCommand command)
     {
         var storedProfile = await _context.Profiles
             .Where(x => x.Name == command.Name)
@@ -59,10 +62,21 @@ public sealed class ProfileService {
 
         if (storedProfile is null)
         {
-            
+            return UIResult.Fail<bool>(["The provided credentials are invalid."]);
         }
 
         var loginSuccess = _masterPasswordService.VerifyPassword(command.Password, storedProfile!.Hash, storedProfile.Salt);
-        return default;
+        if (!loginSuccess)
+        {
+            return UIResult.Fail<bool>(["The provided credentials are invalid."]);
+        }
+
+        SessionState.Set(new ProfileContext
+        {
+            Name = command.Name,
+            Id = storedProfile.ProfileId,
+            SessionKey = _cryptographer.DeriveKey(command.Password, storedProfile.Salt)
+        });
+        return UIResult.Succeed(true);
     }
 }

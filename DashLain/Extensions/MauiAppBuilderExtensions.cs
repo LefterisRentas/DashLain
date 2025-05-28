@@ -1,4 +1,4 @@
-﻿using DashLain.Data;
+﻿using DashLain.Entities;
 using DashLain.Services;
 using DashLain.Validation;
 using FluentValidation;
@@ -42,12 +42,15 @@ public static class MauiAppBuilderExtensions {
 
     public static MauiAppBuilder AddCryptographyServices(this MauiAppBuilder builder)
     {
+        builder.Services.AddTransient<Cryptographer>();
+
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
         builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         builder.Services.AddSingleton<MasterPasswordService>();
         builder.Services.AddSingleton<ProfileService>();
+        builder.Services.AddSingleton<VaultService>();
 
         return builder;
     }
