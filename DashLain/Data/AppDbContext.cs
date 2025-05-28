@@ -1,11 +1,13 @@
 ﻿using DashLain.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DashLain.Data;
 public class AppDbContext : DbContext {
     public DbSet<DbEntry> Entries => Set<DbEntry>();
 
-    public DbSet<DbMasterRecord> MasterRecords => Set<DbMasterRecord>();
+    public DbSet<DbProfile> Profiles => Set<DbProfile>();
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -33,6 +35,17 @@ public class AppDbContext : DbContext {
 
         builder.Entity<DbCategory>().ToTable("categories");
 
-        builder.Entity<DbMasterRecord>().ToTable("master-record");
+        builder.Entity<DbMasterPasswordAuth>().ToTable("master-passwords");
+
+        builder.Entity<DbProfile>()
+            .ToTable("profiles")
+            .HasOne(p => p.MasterPasswordAuth)
+            .WithOne(a => a.Profile)
+            .HasForeignKey<DbMasterPasswordAuth>(a => a.ProfileId);
+
+        builder.Entity<DbEntry>()
+            .HasOne(e => e.Profile)
+            .WithMany(p => p.VaultEntries)
+            .HasForeignKey(e => e.ProfileId);
     }
 }

@@ -1,5 +1,9 @@
 ﻿using DashLain.Data;
 using DashLain.Extensions;
+using DashLain.Handlers;
+using DashLain.Models;
+using DashLain.Services;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -13,8 +17,8 @@ public static class MauiProgram {
         var builder = MauiApp.CreateBuilder();
 
         builder.AddConfigurationDefaults();
-
         builder.AddSqliteDefaults();
+        builder.AddCryptographyServices();
 
         builder
             .UseMauiApp<App>()
@@ -28,8 +32,13 @@ public static class MauiProgram {
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
-#endif
 
+        // testing mediatR
+        var x = builder.Services.BuildServiceProvider().CreateScope().ServiceProvider;
+        var mediator = x.GetRequiredService<IMediator>();
+        var c = new CreateProfileMasterPasswordCommand { Name = "", Password = "1" };
+        var r = mediator.Send(c).Result;
+#endif
         return builder.Build();
     }
 }

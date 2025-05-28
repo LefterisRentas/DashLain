@@ -1,4 +1,8 @@
 ﻿using DashLain.Data;
+using DashLain.Services;
+using DashLain.Validation;
+using FluentValidation;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -13,7 +17,7 @@ namespace DashLain.Extensions;
 public static class MauiAppBuilderExtensions {
     public static MauiAppBuilder AddConfigurationDefaults(this MauiAppBuilder builder)
     {
-        var workingDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;
+        var workingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly()!.Location)!;
         var configBuilder = new ConfigurationBuilder()
             .AddJsonFile(Path.Combine(workingDirectory, "dashlain.json"))
             .Build();
@@ -33,6 +37,18 @@ public static class MauiAppBuilderExtensions {
             .Options;
         using var db = new AppDbContext(dbOptions);
         db.Database.EnsureCreated();
+        return builder;
+    }
+
+    public static MauiAppBuilder AddCryptographyServices(this MauiAppBuilder builder)
+    {
+        builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+        builder.Services.AddSingleton<MasterPasswordService>();
+        builder.Services.AddSingleton<ProfileService>();
+
         return builder;
     }
 }

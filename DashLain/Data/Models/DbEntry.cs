@@ -1,9 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DashLain.Data.Models;
 
 public sealed class DbEntry {
+    [Key]
     public Guid Id { get; set; } = Guid.CreateVersion7();
+
+    public Guid ProfileId { get; set; }
+
+    public DbProfile Profile { get; set; }
 
     [Required]
     [MaxLength(100)]
