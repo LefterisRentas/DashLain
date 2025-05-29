@@ -32,20 +32,7 @@ public static class MauiProgram {
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
-
-        // testing mediatR
-        var serviceProvider = builder.Services.BuildServiceProvider().CreateScope().ServiceProvider;
-        var mediator = serviceProvider.GetRequiredService<IMediator>();
-        var vaultService = serviceProvider.GetRequiredService<VaultService>();
-
-        var command = new AddVaultEntryCommand
-        {
-            Email = "makis@gmail.com",
-            Title = "Work",
-            Password = "test",
-            Username = "makis"
-        };
-        await vaultService.AddEntry(command);
+        await builder.Debugging();
 #endif
         return builder.Build();
     }
