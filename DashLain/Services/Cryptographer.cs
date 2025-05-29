@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DashLain.State;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -14,28 +15,26 @@ public sealed class Cryptographer {
     public const int TagSize = 16;
     public const int Pbkdf2Iterations = 100_000;
 
-    public byte[] Encrypt(string plainText, byte[] key)
+    public byte[] Encrypt(string plainText)
     {
         var plaintextBytes = Encoding.UTF8.GetBytes(plainText);
         var cipherText = new byte[plaintextBytes.Length];
         var tag = new byte[TagSize];
 
-        using var aes = new AesGcm(key, TagSize);
-        var iv = GenerateIV();
-        aes.Encrypt(iv, plaintextBytes, cipherText, tag);
+        using var aes = new AesGcm(SessionState.Get().SessionKey, TagSize);
+        aes.Encrypt(GenerateIV(), plaintextBytes, cipherText, tag);
 
         return Combine(cipherText, tag);
     }
 
-    public string Decrypt(byte[] ciphertextWithTag, byte[] key)
+    public string Decrypt(byte[] ciphertextWithTag)
     {
         var ciphertext = ciphertextWithTag[..^TagSize];
         var tag = ciphertextWithTag[^TagSize..];
         var plaintextBytes = new byte[ciphertext.Length];
 
-        using var aes = new AesGcm(key, TagSize);
-        var iv = GenerateIV();
-        aes.Decrypt(iv, ciphertext, tag, plaintextBytes);
+        using var aes = new AesGcm(SessionState.Get().SessionKey, TagSize);
+        aes.Decrypt(GenerateIV(), ciphertext, tag, plaintextBytes);
 
         return Encoding.UTF8.GetString(plaintextBytes);
     }
