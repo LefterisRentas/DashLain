@@ -61,7 +61,7 @@
         Password = string.Empty
     };
 
-    private List<string> _messages = [];
+    private List<string> _messages = new();
     private string _messagesClass = "";
     private bool _showPassword;
 
@@ -77,7 +77,7 @@
     }
 
     private async Task HandleSubmit() {
-        _messages = [];
+        _messages.Clear();
         var result = await Mediator.Send(_command);
 
         if (result.IsSuccess) {
