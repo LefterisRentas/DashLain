@@ -32,12 +32,6 @@ public sealed class DbEntry {
     [MaxLength(2048)]
     public string Notes { get; set; } = string.Empty;
 
-    [Required]
-    public byte[] Salt { get; set; } = [];
-
-    [Required]
-    public byte[] InitialVector { get; set; } = [];
-
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
 
     public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;

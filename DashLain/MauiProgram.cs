@@ -12,7 +12,7 @@ using System.Reflection;
 namespace DashLain;
 
 public static class MauiProgram {
-    public static MauiApp CreateMauiApp()
+    public static async Task<MauiApp> CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
 
@@ -34,10 +34,18 @@ public static class MauiProgram {
         builder.Logging.AddDebug();
 
         // testing mediatR
-        var x = builder.Services.BuildServiceProvider().CreateScope().ServiceProvider;
-        var mediator = x.GetRequiredService<IMediator>();
-        var c = new CreateProfileMasterPasswordCommand { Name = "", Password = "1" };
-        var r = mediator.Send(c).Result;
+        var serviceProvider = builder.Services.BuildServiceProvider().CreateScope().ServiceProvider;
+        var mediator = serviceProvider.GetRequiredService<IMediator>();
+        var vaultService = serviceProvider.GetRequiredService<VaultService>();
+
+        var command = new AddVaultEntryCommand
+        {
+            Email = "makis@gmail.com",
+            Title = "Work",
+            Password = "test",
+            Username = "makis"
+        };
+        await vaultService.AddEntry(command);
 #endif
         return builder.Build();
     }
