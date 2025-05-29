@@ -1,6 +1,7 @@
 ﻿using DashLain.Entities;
 using DashLain.Entities.Models;
 using DashLain.Handlers;
+using DashLain.Models;
 using DashLain.State;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Maui.ApplicationModel.Communication;
@@ -23,7 +24,7 @@ public sealed class VaultService {
         _cryptographer = cryptographer;
     }
 
-    public async Task AddEntry(AddVaultEntryCommand command)
+    public async Task<UIResult<bool>> AddEntry(AddVaultEntryCommand command)
     {
         var entry = new DbEntry
         {
@@ -37,5 +38,6 @@ public sealed class VaultService {
         };
         await _context.Entries.AddAsync(entry);
         await _context.SaveChangesAsync();
+        return UIResult.Succeed(true);
     }
 }

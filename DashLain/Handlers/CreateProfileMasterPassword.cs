@@ -23,17 +23,10 @@ public sealed class Profile
     public AuthType AuthType { get; set; }
 }
 
-public sealed class CreateProfileMasterPasswordHandler : IRequestHandler<CreateProfileMasterPasswordCommand, UIResult<Profile>> {
-    readonly ProfileService _profileService;
-
-    public CreateProfileMasterPasswordHandler(ProfileService profileService)
-    {
-        _profileService = profileService;
-    }
-
+public sealed class CreateProfileMasterPasswordHandler(ProfileService profileService) : IRequestHandler<CreateProfileMasterPasswordCommand, UIResult<Profile>> {
     public async Task<UIResult<Profile>> Handle(CreateProfileMasterPasswordCommand request, CancellationToken cancellationToken)
     {
-        return await _profileService.CreateProfileWithMasterPassword(request);
+        return await profileService.CreateProfileWithMasterPassword(request);
     }
 }
 

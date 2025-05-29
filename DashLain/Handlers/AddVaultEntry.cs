@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+﻿using DashLain.Models;
+using DashLain.Services;
+using FluentValidation;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DashLain.Handlers;
 
-public sealed class AddVaultEntryCommand {
+public sealed class AddVaultEntryCommand : IRequest<UIResult<bool>> {
     public string Title { get; set; } = string.Empty;
 
     public string Username { get; set; } = string.Empty;
@@ -15,6 +18,13 @@ public sealed class AddVaultEntryCommand {
     public string Password { get; set; } = string.Empty;
 
     public string Email { get; set; } = string.Empty;
+}
+
+public sealed class AddVaultEntryHandler(VaultService vaultService) : IRequestHandler<AddVaultEntryCommand, UIResult<bool>> {
+    public async Task<UIResult<bool>> Handle(AddVaultEntryCommand request, CancellationToken cancellationToken)
+    {
+        return await vaultService.AddEntry(request);
+    }
 }
 
 public sealed class AddVaultEntryRule : AbstractValidator<AddVaultEntryCommand>
