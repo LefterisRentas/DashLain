@@ -1,0 +1,86 @@
+﻿@page "/profile/create"
+@using DashLain.Handlers
+@using DashLain.Models
+@using MediatR
+@inject IMediator Mediator
+
+<EditForm Model="@command" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="max-w-md mx-auto mt-20 px-6 py-8 bg-white rounded-2xl shadow-xl space-y-6 border border-gray-200">
+        <h2 class="text-3xl font-bold text-center text-gray-900">Create Profile</h2>
+
+        <ValidationSummary class="text-sm text-red-600 bg-red-50 p-4 rounded-xl border border-red-300" />
+
+        <!-- Name Field -->
+        <div class="space-y-1">
+            <label for="profile-name" class="block text-sm font-medium text-gray-700">Profile Name</label>
+            <InputText id="profile-name" @bind-Value="command.Name" class="form-input" />
+            <ValidationMessage For="@(() => command.Name)" class="text-sm text-red-500" />
+        </div>
+
+        <!-- Password Field -->
+        <div class="space-y-1">
+            <label for="master-password" class="block text-sm font-medium text-gray-700">Master Password</label>
+            <div class="relative">
+                <InputText id="master-password" @bind-Value="command.Password" type="@passwordInputType" class="form-input pr-10" />
+                <button type="button" @onclick="() => showPassword = !showPassword"
+                        class="absolute inset-y-0 right-2 flex items-center text-gray-400 hover:text-gray-600"
+                        title="@((showPassword ? "Hide" : "Show") + " Password")">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                         class="h-5 w-5">
+                        @if (showPassword)
+                        {
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-4.477-10-10a9.96 9.96 0 012.158-6.125m1.873-1.875a9.962 9.962 0 0112.71 0M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        }
+                        else
+                        {
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M3 3l18 18M10.5 10.5A3 3 0 0113.5 13.5M9.878 9.879A3 3 0 0114.121 14.12M4.929 4.929A10.013 10.013 0 002 12c0 5.523 4.477 10 10 10a9.957 9.957 0 006.126-2.158" />
+                        }
+                    </svg>
+                </button>
+            </div>
+            <ValidationMessage For="@(() => command.Password)" class="text-sm text-red-500" />
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-xl shadow-md transition-all duration-200">
+            Create Profile
+        </button>
+
+        <!-- Feedback Message -->
+        @if (!string.IsNullOrWhiteSpace(message))
+        {
+            <div class="text-center mt-4 text-sm font-medium text-@messageClass">@message</div>
+        }
+    </div>
+</EditForm>
+
+@code {
+    private CreateProfileMasterPasswordCommand command = new();
+    private string message = "";
+    private string messageClass = "";
+    private bool showPassword = false;
+
+    private string passwordInputType => showPassword ? "text" : "password";
+
+    private async Task HandleSubmit()
+    {
+        var result = await Mediator.Send(command);
+
+        if (result.IsSuccess)
+        {
+            message = "✅ Profile created successfully!";
+            messageClass = "green-600";
+            command = new();
+        }
+        else
+        {
+            message = string.Join(" ", result.Errors);
+            messageClass = "red-600";
+        }
+    }
+}

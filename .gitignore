@@ -57,3 +57,4 @@ nunit-*.xml
 .vs
 node_modules
 package-lock.json
+DashLain.sln.DotSettings.user

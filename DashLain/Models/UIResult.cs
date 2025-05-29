@@ -1,11 +1,4 @@
-﻿using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DashLain.Models;
+﻿namespace DashLain.Models;
 
 public class UIResult<T> {
     public bool IsSuccess { get; }

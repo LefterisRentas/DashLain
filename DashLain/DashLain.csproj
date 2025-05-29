@@ -75,4 +75,8 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
     </ItemGroup>
 
+    <Target Name="TailwindBuild" BeforeTargets="Build">
+        <Exec Command="npm run build" WorkingDirectory="$(ProjectDir)" />
+    </Target>
+
 </Project>
