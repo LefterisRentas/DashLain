@@ -1,6 +1,4 @@
-﻿using DashLain.Entities;
-using DashLain.Entities.Models;
-using DashLain.Handlers;
+﻿using DashLain.Handlers;
 using DashLain.Models;
 using DashLain.State;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DashLain.Data;
+using DashLain.Data.Entities;
 
 namespace DashLain.Services;
 public sealed class ProfileService {

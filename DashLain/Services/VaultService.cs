@@ -1,6 +1,4 @@
-﻿using DashLain.Entities;
-using DashLain.Entities.Models;
-using DashLain.Handlers;
+﻿using DashLain.Handlers;
 using DashLain.State;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Maui.ApplicationModel.Communication;
@@ -10,6 +8,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using DashLain.Data;
+using DashLain.Data.Entities;
 
 namespace DashLain.Services;
 

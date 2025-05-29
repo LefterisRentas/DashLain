@@ -1,4 +1,4 @@
-﻿namespace DashLain;
+﻿namespace DashLain.Models;
 
 public enum AuthType {
     MasterPassword = 0,

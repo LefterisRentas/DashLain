@@ -1,5 +1,4 @@
-﻿using DashLain.Entities;
-using DashLain.Services;
+﻿using DashLain.Services;
 using DashLain.Validation;
 using FluentValidation;
 using MediatR;
@@ -11,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using DashLain.Data;
 
 namespace DashLain.Extensions;
 

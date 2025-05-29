@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace DashLain.Entities.Models;
+namespace DashLain.Data.Entities;
 
 public sealed class DbEntry {
     [Key]
