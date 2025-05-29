@@ -24,7 +24,7 @@
         <div class="space-y-1">
             <label for="master-password" class="block text-sm font-medium text-gray-700">Master Password</label>
             <div class="relative w-full">
-                <InputText id="master-password" @bind-Value="_showPassword ? _command.Password : HiddenPassword"
+                <InputText id="master-password" @bind-Value="Password"
                            class="form-input pr-10"/>
                 <button type="button" @onclick="() => _showPassword = !_showPassword"
                         class="absolute inset-y-0 right-2 flex items-center text-gray-400 hover:text-gray-600"
@@ -65,13 +65,16 @@
     private string _messagesClass = "";
     private bool _showPassword;
 
-    private string HiddenPassword {
-        get => _command.Password.Length > 0 ? new string('*', _command.Password.Length) : "";
+    private string Password {
+        get
+        {
+            if (_showPassword) {
+                return _command.Password;
+            }
+            return new string('*', _command.Password.Length);
+        }
         set
         {
-            if (value.Length - 1 != _command.Password.Length) {
-                Logger.LogWarning("HiddenPassword setter called with unexpected length: {Length}", value.Length);
-            }
             _command.Password = value;
         }
     }
