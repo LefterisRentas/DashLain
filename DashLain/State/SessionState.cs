@@ -11,9 +11,9 @@ public sealed class ProfileContext
 {
     public Guid Id { get; set; }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public byte[] SessionKey { get; set; }
+    public byte[] SessionKey { get; set; } = [];
 }
 
 public static class SessionState {

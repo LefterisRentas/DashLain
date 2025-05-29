@@ -9,11 +9,11 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace DashLain.Entities.Models;
 public sealed class DbMasterPasswordAuth {
     [Key]
-    public Guid ProfileId { get; set; }
+    public Guid ProfileId { get; set; } = Guid.CreateVersion7();
 
-    public byte[] Hash { get; set; } = Array.Empty<byte>();
+    public byte[] Hash { get; set; } = [];
 
-    public byte[] Salt { get; set; } = Array.Empty<byte>();
+    public byte[] Salt { get; set; } = [];
 
-    public DbProfile Profile { get; set; }
+    public DbProfile? Profile { get; set; }
 }

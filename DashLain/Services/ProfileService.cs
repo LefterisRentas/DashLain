@@ -23,6 +23,18 @@ public sealed class ProfileService {
         _cryptographer = cryptographer;
     }
 
+    public async Task<UIResult<Profile[]>> GetProfiles()
+    {
+        var result = await _context.Profiles
+            .Select(x => new Profile
+            {
+                Name = x.Name,
+                AuthType = x.AuthType
+            })
+            .ToArrayAsync();
+        return UIResult.Succeed(result);
+    }
+
     public async Task<UIResult<Profile>> CreateProfileWithMasterPassword(CreateProfileMasterPasswordCommand command)
     {
         if (await _context.Profiles.AnyAsync(p => p.Name == command.Name))

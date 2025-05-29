@@ -11,14 +11,16 @@ using System.Threading.Tasks;
 namespace DashLain.Handlers;
 
 public sealed class CreateProfileMasterPasswordCommand : IRequest<UIResult<Profile>> {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public string Password { get; set; }
+    public string Password { get; set; } = string.Empty;
 }
 
 public sealed class Profile
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
+
+    public AuthType AuthType { get; set; }
 }
 
 public sealed class CreateProfileMasterPasswordHandler : IRequestHandler<CreateProfileMasterPasswordCommand, UIResult<Profile>> {

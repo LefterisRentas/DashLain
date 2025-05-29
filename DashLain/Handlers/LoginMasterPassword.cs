@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 namespace DashLain.Handlers;
 
 public sealed class LoginMasterPasswordCommand : IRequest<UIResult<bool>> {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
-    public string Password { get; set; }
+    public string Password { get; set; } = string.Empty;
 }
 
 public sealed class LoginMasterPasswordHandler : IRequestHandler<LoginMasterPasswordCommand, UIResult<bool>> {
