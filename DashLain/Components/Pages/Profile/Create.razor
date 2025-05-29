@@ -2,7 +2,7 @@
 @using DashLain.Handlers
 @using MediatR
 @inject IMediator Mediator
-@inject Microsoft.Extensions.Localization.IStringLocalizer<Create> Localizer
+@inject Microsoft.Extensions.Localization.IStringLocalizer<DashLain.Resources.Components.Pages.Profile.Create> Localizer
 
 <EditForm Model="@_command" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator/>

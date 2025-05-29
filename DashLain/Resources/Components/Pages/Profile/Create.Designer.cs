@@ -95,5 +95,14 @@ namespace DashLain.Resources.Components.Pages.Profile {
                 return ResourceManager.GetString("Profile Name", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Profile_name_already_exists_ {
+            get {
+                return ResourceManager.GetString("Profile name already exists.", resourceCulture);
+            }
+        }
     }
 }
