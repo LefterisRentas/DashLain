@@ -12,7 +12,7 @@ namespace DashLain.Extensions;
 public static class MauiAppBuilderExtensions {
     public static MauiAppBuilder AddConfigurationDefaults(this MauiAppBuilder builder)
     {
-        var workingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly()!.Location)!;
+        var workingDirectory = Path.GetDirectoryName(AppContext.BaseDirectory)!;
         var configBuilder = new ConfigurationBuilder()
             .AddJsonFile(Path.Combine(workingDirectory, "dashlain.json"))
             .Build();

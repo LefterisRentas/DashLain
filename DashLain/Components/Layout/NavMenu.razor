@@ -1,69 +1,90 @@
-<nav class="border-b border-gray-200 bg-white">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex h-16 justify-between">
-        <div class="flex">
-          <div class="flex shrink-0 items-center">
-            <img class="block h-8 w-auto lg:hidden" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
-            <img class="hidden h-8 w-auto lg:block" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
-          </div>
-          <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
-            @foreach (var link in _navLinks)
-            {
-              <a href="@link.Href"
-                 class="flex items-center border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800">
-                @link.Text
-              </a>
-            }
-          </div>
-        </div>
-        <div class="-mr-2 flex items-center sm:hidden">
-          <!-- Mobile menu button -->
-          <button type="button" class="relative inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden" aria-controls="mobile-menu" aria-expanded="false">
-            <span class="absolute -inset-0.5"></span>
-            <span class="sr-only">Open main menu</span>
-            <!-- Menu open: "hidden", Menu closed: "block" -->
-            <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-            <!-- Menu open: "block", Menu closed: "hidden" -->
-            <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
+@using System.Globalization
+@using DashLain.Constants
+@inject NavigationManager Navigation
+@inject Microsoft.Extensions.Localization.IStringLocalizer<DashLain.Resources.Components.Layout.NavMenu> Localizer
 
-    <!-- Mobile menu, show/hide based on menu state. -->
-    <div class="sm:hidden" id="mobile-menu">
-      <div class="space-y-1 pt-2 pb-3">
-        @foreach (var link in _navLinks)
-        {
-          <a href="@link.Href"
-             class="flex items-center border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800">
-            @link.Text
-          </a>
-        }
-      </div>
-      <div class="border-t border-gray-200 pt-4 pb-3">
-        <div class="flex items-center px-4">
-          <div class="shrink-0">
-            <img class="size-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-          </div>
-          <div class="ml-3">
-            <div class="text-base font-medium text-gray-800">Tom Cook</div>
-            <div class="text-sm font-medium text-gray-500">tom@example.com</div>
-          </div>
+<nav class="border-b border-gray-200 bg-white">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex h-16 justify-between">
+      <div class="flex">
+        <div class="flex shrink-0 items-center">
+        </div>
+        <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+          @foreach (var link in _navLinks) {
+            <a href="@link.Href"
+               class="flex items-center border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800">
+              @Localizer[link.Text]
+            </a>
+          }
         </div>
       </div>
+      <div class="-mr-2 flex items-center sm:hidden">
+        <!-- Mobile menu button -->
+        <button type="button"
+                class="relative inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
+                aria-controls="mobile-menu" aria-expanded="false">
+          <span class="absolute -inset-0.5"></span>
+          <span class="sr-only">Open main menu</span>
+          <!-- Menu open: "hidden", Menu closed: "block" -->
+          <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+               aria-hidden="true" data-slot="icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+          </svg>
+          <!-- Menu open: "block", Menu closed: "hidden" -->
+          <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+               aria-hidden="true" data-slot="icon">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="flex justify-end items-center p-4">
+        <select class="border rounded-md px-2 py-1 text-sm text-gray-700"
+                @onchange="OnLanguageChange">
+          @foreach (var culture in SupportedCultures.GetSupportedCultures())
+          {
+            <option value="@culture.TwoLetterLanguageName" selected="@IsSelected(culture.TwoLetterLanguageName)">
+              @culture.DisplayName
+            </option>
+          }
+        </select>
+      </div>
     </div>
-  </nav>
+  </div>
+
+  <!-- Mobile menu, show/hide based on menu state. -->
+  <div class="sm:hidden" id="mobile-menu">
+    <div class="space-y-1 pt-2 pb-3">
+      @foreach (var link in _navLinks) {
+        <a href="@link.Href"
+           class="flex items-center border-l-4 border-transparent py-2 pr-4 pl-3 text-base font-medium text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800">
+          @Localizer[link.Text]
+        </a>
+      }
+    </div>
+  </div>
+</nav>
 
 @code {
-    private static readonly (string Text, string Href)[] _navLinks = new[]
-    {
-        ("Home", "/"),
-        ("Profile Create", "/profile/create"),
-        ("Weather", "/weather")
-    };
+
+  private static readonly (string Text, string Href)[] _navLinks = [
+    ("Home", "/"), ("Profile Create", "/profile/create")
+  ];
+
+  private Task OnLanguageChange(ChangeEventArgs e)
+  {
+    var selected = e.Value?.ToString() ?? "en";
+    Preferences.Set("lang", selected);
+
+    // Force reload of app or main page
+    var culture = new CultureInfo(selected);
+    CultureInfo.DefaultThreadCurrentCulture = culture;
+    CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+    // Reload to reflect localization
+    Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+    return Task.CompletedTask;
+  }
+
+  private bool IsSelected(string value) =>
+    CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == new CultureInfo(value).TwoLetterISOLanguageName;
 }
