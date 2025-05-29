@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DashLain.Handlers;
+
 public sealed class AddVaultEntryCommand {
     public string Title { get; set; }
 

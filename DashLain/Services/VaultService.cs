@@ -25,12 +25,9 @@ public sealed class VaultService {
 
     public async Task AddEntry(AddVaultEntryCommand command)
     {
-        var iv = _cryptographer.GenerateIV();
-
         var entry = new DbEntry
         {
             ProfileId = SessionState.Get().Id,
-            InitialVector = iv,
             Title = Convert.ToBase64String(_cryptographer.Encrypt(command.Title, SessionState.Get().SessionKey)),
             Username = Convert.ToBase64String(_cryptographer.Encrypt(command.Username, SessionState.Get().SessionKey)),
             Password = _cryptographer.Encrypt(command.Password, SessionState.Get().SessionKey),
@@ -38,8 +35,7 @@ public sealed class VaultService {
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };
-
-        _context.Entries.Add(entry);
+        await _context.Entries.AddAsync(entry);
         await _context.SaveChangesAsync();
     }
 }
