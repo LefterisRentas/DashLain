@@ -74,4 +74,10 @@ public sealed class ProfileService {
         });
         return UIResult.Succeed(true);
     }
+
+    public async Task<UIResult<List<Profile>>> GetAllProfiles() {
+        return UIResult.Succeed((await _context.Profiles.Select(x => new Profile {
+            Name = x.Name,
+        }).ToListAsync()));
+    }
 }

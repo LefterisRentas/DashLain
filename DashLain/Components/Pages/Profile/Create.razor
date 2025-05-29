@@ -1,48 +1,42 @@
 ﻿@page "/profile/create"
 @using DashLain.Handlers
-@using DashLain.Models
 @using MediatR
+@using Microsoft.Extensions.Logging
 @inject IMediator Mediator
+@inject ILogger<Create> Logger
 
-<EditForm Model="@command" OnValidSubmit="HandleSubmit">
-    <DataAnnotationsValidator />
+<EditForm Model="@_command" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator/>
 
     <div class="max-w-md mx-auto mt-20 px-6 py-8 bg-white rounded-2xl shadow-xl space-y-6 border border-gray-200">
         <h2 class="text-3xl font-bold text-center text-gray-900">Create Profile</h2>
 
-        <ValidationSummary class="text-sm text-red-600 bg-red-50 p-4 rounded-xl border border-red-300" />
+        <ValidationSummary class="text-sm text-red-600 bg-red-50 p-4 rounded-xl border border-red-300"/>
 
         <!-- Name Field -->
         <div class="space-y-1">
             <label for="profile-name" class="block text-sm font-medium text-gray-700">Profile Name</label>
-            <InputText id="profile-name" @bind-Value="command.Name" class="form-input" />
-            <ValidationMessage For="@(() => command.Name)" class="text-sm text-red-500" />
+            <InputText id="profile-name" @bind-Value="_command.Name" class="form-input"/>
+            <ValidationMessage For="@(() => _command.Name)" class="text-sm text-red-500"/>
         </div>
 
         <!-- Password Field -->
         <div class="space-y-1">
             <label for="master-password" class="block text-sm font-medium text-gray-700">Master Password</label>
-            <div class="relative">
-                <InputText id="master-password" @bind-Value="command.Password" type="@passwordInputType" class="form-input pr-10" />
-                <button type="button" @onclick="() => showPassword = !showPassword"
+            <div class="relative w-full">
+                <InputText id="master-password" @bind-Value="_showPassword ? _command.Password : HiddenPassword"
+                           class="form-input pr-10"/>
+                <button type="button" @onclick="() => _showPassword = !_showPassword"
                         class="absolute inset-y-0 right-2 flex items-center text-gray-400 hover:text-gray-600"
-                        title="@((showPassword ? "Hide" : "Show") + " Password")">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                         class="h-5 w-5">
-                        @if (showPassword)
-                        {
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M13.875 18.825A10.05 10.05 0 0112 19c-5.523 0-10-4.477-10-10a9.96 9.96 0 012.158-6.125m1.873-1.875a9.962 9.962 0 0112.71 0M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        }
-                        else
-                        {
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M3 3l18 18M10.5 10.5A3 3 0 0113.5 13.5M9.878 9.879A3 3 0 0114.121 14.12M4.929 4.929A10.013 10.013 0 002 12c0 5.523 4.477 10 10 10a9.957 9.957 0 006.126-2.158" />
-                        }
-                    </svg>
+                        title="@((_showPassword ? "Hide" : "Show") + " Password")">
+                    @if (_showPassword) {
+                        <i class="fa-regular fa-eye"></i>
+                    } else {
+                        <i class="fa-regular fa-eye-slash"></i>
+                    }
                 </button>
             </div>
-            <ValidationMessage For="@(() => command.Password)" class="text-sm text-red-500" />
+            <ValidationMessage For="@(() => _command.Password)" class="text-sm text-red-500"/>
         </div>
 
         <!-- Submit Button -->
@@ -52,35 +46,50 @@
         </button>
 
         <!-- Feedback Message -->
-        @if (!string.IsNullOrWhiteSpace(message))
-        {
-            <div class="text-center mt-4 text-sm font-medium text-@messageClass">@message</div>
+        @if (_messages is { Count: > 0 }) {
+            foreach (var message in _messages) {
+                <div class="text-center mt-4 text-sm font-medium text-@_messagesClass">@message</div>
+            }
         }
     </div>
 </EditForm>
 
 @code {
-    private CreateProfileMasterPasswordCommand command = new();
-    private string message = "";
-    private string messageClass = "";
-    private bool showPassword = false;
 
-    private string passwordInputType => showPassword ? "text" : "password";
+    private CreateProfileMasterPasswordCommand _command = new() {
+        Name = string.Empty,
+        Password = string.Empty
+    };
 
-    private async Task HandleSubmit()
-    {
-        var result = await Mediator.Send(command);
+    private List<string> _messages = [];
+    private string _messagesClass = "";
+    private bool _showPassword;
 
-        if (result.IsSuccess)
+    private string HiddenPassword {
+        get => _command.Password.Length > 0 ? new string('*', _command.Password.Length) : "";
+        set
         {
-            message = "✅ Profile created successfully!";
-            messageClass = "green-600";
-            command = new();
+            if (value.Length - 1 != _command.Password.Length) {
+                Logger.LogWarning("HiddenPassword setter called with unexpected length: {Length}", value.Length);
+            }
+            _command.Password = value;
         }
-        else
-        {
-            message = string.Join(" ", result.Errors);
-            messageClass = "red-600";
+    }
+
+    private async Task HandleSubmit() {
+        _messages = [];
+        var result = await Mediator.Send(_command);
+
+        if (result.IsSuccess) {
+            _messages.Add("✅ Profile created successfully!");
+            _messagesClass = "green-600";
+            _command = new() {
+                Name = string.Empty,
+                Password = string.Empty
+            };
+        } else {
+            _messages = result.Errors;
+            _messagesClass = "red-600";
         }
     }
 }

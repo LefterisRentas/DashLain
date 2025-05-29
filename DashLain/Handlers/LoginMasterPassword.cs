@@ -6,9 +6,9 @@ using MediatR;
 namespace DashLain.Handlers;
 
 public sealed class LoginMasterPasswordCommand : IRequest<UIResult<bool>> {
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
-    public string Password { get; set; }
+    public required string Password { get; set; }
 }
 
 public sealed class LoginMasterPasswordHandler : IRequestHandler<LoginMasterPasswordCommand, UIResult<bool>> {

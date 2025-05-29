@@ -1,15 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="flex flex-col min-h-screen bg-gray-50">
+<div class="min-h-full min-w-full">
     <NavMenu />
 
-    <main class="flex-1">
-        <div class="max-w-screen-xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            @Body
-        </div>
-    </main>
+    <div class="py-10">
+        <main>
+            <div class="mx-auto px-4 py-8 sm:px-6 lg:px-8">
+                @Body
+            </div>
+        </main>
+    </div>
 
-    <footer class="py-4 text-center text-sm text-gray-500">
-        © @DateTime.Today.Year DashLain
+    <footer class="py-6 text-center text-sm text-gray-600">
+        © @DateTime.Today.Year DashLain. All rights reserved.
     </footer>
 </div>

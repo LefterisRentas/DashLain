@@ -8,7 +8,7 @@ public sealed class DbEntry {
 
     public Guid ProfileId { get; set; }
 
-    public DbProfile Profile { get; set; }
+    public DbProfile Profile { get; set; } = null!;
 
     [Required]
     [MaxLength(100)]

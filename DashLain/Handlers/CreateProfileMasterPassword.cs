@@ -6,14 +6,14 @@ using MediatR;
 namespace DashLain.Handlers;
 
 public sealed class CreateProfileMasterPasswordCommand : IRequest<UIResult<Profile>> {
-    public string Name { get; set; }
+    public required string Name { get; set; }
 
-    public string Password { get; set; }
+    public required string Password { get; set; }
 }
 
 public sealed class Profile
 {
-    public string Name { get; set; }
+    public required string Name { get; set; }
 }
 
 public sealed class CreateProfileMasterPasswordHandler : IRequestHandler<CreateProfileMasterPasswordCommand, UIResult<Profile>> {
