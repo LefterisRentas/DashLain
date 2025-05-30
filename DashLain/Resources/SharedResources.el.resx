@@ -1,0 +1,35 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Profile name is required." xml:space="preserve">
+        <value>Το όνομα προφίλ είναι υποχρεωτικό.</value>
+    </data>
+    <data name="Password is required." xml:space="preserve">
+        <value>Ο κωδικός είναι υποχρεωτικός</value>
+    </data>
+    <data name="Password must be at least 12 characters." xml:space="preserve">
+        <value>Ο κωδικός πρέπει να είναι το ελάχιστο 12 χαρακτήρες.</value>
+    </data>
+    <data name="Password must contain an uppercase letter." xml:space="preserve">
+        <value>Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα κεφαλαίο γράμμα.</value>
+    </data>
+    <data name="Password must contain a lowercase letter." xml:space="preserve">
+        <value>Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα πεζό γράμμα.</value>
+    </data>
+    <data name="Password must contain a digit." xml:space="preserve">
+        <value>Ο κωδικός πρέπει να περιέχει τουλάχιστον έναν αριθμό.</value>
+    </data>
+    <data name="Password must contain a special character." xml:space="preserve">
+        <value>Ο κωδικός πρέπει να περιέχει τουλάχιστον έναν ειδικό χαρακτήρα.</value>
+    </data>
+</root>

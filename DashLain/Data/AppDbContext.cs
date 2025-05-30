@@ -1,9 +1,8 @@
-﻿using DashLain.Entities.Models;
+﻿using DashLain.Data.Entities;
+using DashLain.Entities.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace DashLain.Entities;
+namespace DashLain.Data;
 public class AppDbContext : DbContext {
     public DbSet<DbEntry> Entries => Set<DbEntry>();
 

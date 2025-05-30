@@ -1,4 +1,4 @@
-﻿using DashLain.Models;
+using DashLain.Models;
 using DashLain.Services;
 using FluentValidation;
 using MediatR;

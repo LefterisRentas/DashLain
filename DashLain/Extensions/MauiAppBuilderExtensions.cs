@@ -1,24 +1,20 @@
-﻿using DashLain.Entities;
-using DashLain.Handlers;
 using DashLain.Services;
+using DashLain.Entities;
+using DashLain.Handlers;
 using DashLain.Validation;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using DashLain.Data;
 
 namespace DashLain.Extensions;
 
 public static class MauiAppBuilderExtensions {
     public static MauiAppBuilder AddConfigurationDefaults(this MauiAppBuilder builder)
     {
-        var workingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly()!.Location)!;
+        var workingDirectory = Path.GetDirectoryName(AppContext.BaseDirectory)!;
         var configBuilder = new ConfigurationBuilder()
             .AddJsonFile(Path.Combine(workingDirectory, "dashlain.json"))
             .Build();

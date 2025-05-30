@@ -1,14 +1,17 @@
 {
+  "name": "dashlain-client",
+  "version": "1.0.0",
   "scripts": {
-    "build:css": "tailwindcss -i wwwroot/css/app.css -o wwwroot/css/app-output.css",
-    "watch:css": "tailwindcss -i wwwroot/css/app.css -o wwwroot/css/app-output.css --watch"
-  },
-  "dependencies": {
-    "@tailwindcss/postcss": "^4.1.7",
-    "postcss": "^8.5.3"
+    "build": "postcss wwwroot/css/app.css -o wwwroot/css/app-output.css",
+    "watch": "postcss wwwroot/css/app.css -o wwwroot/css/app-output.css --watch"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.1.7",
-    "tailwindcss": "^4.1.7"
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.4",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^4.1.8"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.8"
   }
 }

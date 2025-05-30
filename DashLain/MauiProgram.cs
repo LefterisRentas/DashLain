@@ -1,19 +1,15 @@
-﻿using DashLain.Entities;
+﻿using System.Globalization;
 using DashLain.Extensions;
 using DashLain.Handlers;
-using DashLain.Models;
-using DashLain.Services;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using System.Reflection;
 
 namespace DashLain;
 
 public static class MauiProgram {
     public static async Task<MauiApp> CreateMauiApp()
     {
+#pragma warning disable CA1416
         var builder = MauiApp.CreateBuilder();
 
         builder.AddConfigurationDefaults();
@@ -28,6 +24,11 @@ public static class MauiProgram {
             });
 
         builder.Services.AddMauiBlazorWebView();
+        builder.Services.AddLocalization();
+        var lang = Preferences.Get("lang", "en");
+        var culture = new CultureInfo(lang); // change this to "en", "es", etc.
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
@@ -35,5 +36,6 @@ public static class MauiProgram {
         await builder.Debugging();
 #endif
         return builder.Build();
+#pragma warning restore CA1416
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DashLain.Entities.Models;
 
-namespace DashLain.Entities.Models;
+namespace DashLain.Data.Entities;
 
 public sealed class DbTag {
     public Guid Id { get; set; } = Guid.CreateVersion7();

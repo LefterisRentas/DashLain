@@ -1,0 +1,15 @@
+﻿@page "/profiles"
+@using DashLain.Handlers
+@using DashLain.Services
+@inject ProfileService ProfileService
+
+
+
+@code {
+    private List<Profile> _profiles = [];
+    private List<string> _errorMessages = [];
+
+    protected override async Task OnInitializedAsync() {
+        await base.OnInitializedAsync();
+    }
+}

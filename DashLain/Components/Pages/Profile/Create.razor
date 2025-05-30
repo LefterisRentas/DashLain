@@ -1,0 +1,104 @@
+﻿@page "/profile/create"
+@using DashLain.Handlers
+@using MediatR
+@inject IMediator Mediator
+@inject Microsoft.Extensions.Localization.IStringLocalizer<DashLain.Resources.Components.Pages.Profile.Create> Localizer
+
+<EditForm Model="@_command" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator/>
+
+    <div class="max-w-md mx-auto mt-20 px-6 py-8 bg-white rounded-2xl shadow-xl space-y-6 border border-gray-200">
+        <h2 class="text-3xl font-bold text-center text-gray-900">@Localizer["Create A Profile"]</h2>
+
+        <ValidationSummary class="text-sm text-red-600 bg-red-50 p-4 rounded-xl border border-red-300"/>
+
+        <div class="space-y-1">
+            <label for="profile-name" class="block text-sm font-medium text-gray-700">@Localizer["Profile Name"]</label>
+            <InputText id="profile-name" @bind-Value="_command.Name"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition"/>
+            <ValidationMessage For="@(() => _command.Name)" class="text-sm text-red-500"/>
+        </div>
+
+        <div class="space-y-1">
+            <label for="master-password" class="block text-sm font-medium text-gray-700">@Localizer["Password"]</label>
+            <div class="relative w-full">
+                <InputText id="master-password"
+                           @bind-Value="Password"
+                           type="@(_showPassword ? "text" : "password")"
+                           class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition"/>
+                <button type="button"
+                        @onclick="() => _showPassword = !_showPassword"
+                        class="absolute inset-y-0 right-2 flex items-center text-gray-400 hover:text-gray-600"
+                        title="@((_showPassword ? "Hide" : "Show") + " Password")">
+                    @if (_showPassword)
+                    {
+                        <i class="fa-regular fa-eye"></i>
+                    }
+                    else
+                    {
+                        <i class="fa-regular fa-eye-slash"></i>
+                    }
+                </button>
+            </div>
+            <ValidationMessage For="@(() => _command.Password)" class="text-sm text-red-500"/>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg shadow-md transition duration-200">
+            @Localizer["Create Profile"]
+        </button>
+
+        <!-- Feedback Message -->
+        @if (_messages is { Count: > 0 })
+        {
+            foreach (var message in _messages)
+            {
+                <div class="text-center mt-4 text-sm font-medium text-@_messagesClass">@Localizer[message]</div>
+            }
+        }
+    </div>
+</EditForm>
+
+@code {
+
+    private CreateProfileMasterPasswordCommand _command = new() {
+        Name = string.Empty,
+        Password = string.Empty
+    };
+
+    private List<string> _messages = new();
+    private string _messagesClass = "";
+    private bool _showPassword;
+
+    private string Password {
+        get
+        {
+            if (_showPassword) {
+                return _command.Password;
+            }
+            return new string('*', _command.Password.Length);
+        }
+        set
+        {
+            _command.Password = value;
+        }
+    }
+
+    private async Task HandleSubmit() {
+        _messages.Clear();
+        var result = await Mediator.Send(_command);
+
+        if (result.IsSuccess) {
+            _messages.Add("✅ Profile created successfully!");
+            _messagesClass = "green-600";
+            _command = new() {
+                Name = string.Empty,
+                Password = string.Empty
+            };
+        } else {
+            _messages = result.Errors;
+            _messagesClass = "red-600";
+        }
+    }
+}

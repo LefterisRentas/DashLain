@@ -1,79 +1,105 @@
-﻿@code {
-    private bool isMobileMenuOpen = false;
-    private void ToggleMobileMenu() => isMobileMenuOpen = !isMobileMenuOpen;
-}
+@using System.Globalization
+@using DashLain.Constants
+@inject NavigationManager Navigation
+@inject Microsoft.Extensions.Localization.IStringLocalizer<DashLain.Resources.Components.Layout.NavMenu> Localizer
 
-<nav class="bg-white border-b border-gray-200">
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <!-- Logo -->
-        <a href="/" class="flex items-center space-x-2 rtl:space-x-reverse">
-            <img src="/images/logo.svg" class="h-8" alt="DashLain Logo" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap text-gray-800">DashLain</span>
-        </a>
-
-        <!-- Mobile Toggle Button -->
-        <button @onclick="ToggleMobileMenu" type="button"
-                class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-                aria-controls="mobile-menu" aria-expanded="@isMobileMenuOpen.ToString().ToLower()">
-            <span class="sr-only">Open main menu</span>
-            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-        </button>
-
-        <!-- Desktop Menu -->
-        <div class="hidden w-full sm:flex sm:w-auto" id="navbar-default">
-            <ul class="font-medium flex flex-col sm:flex-row sm:space-x-8 rtl:space-x-reverse mt-4 sm:mt-0">
-                <li>
-                    <NavLink href="/" class="block py-2 px-3 rounded sm:p-0"
-                             ActiveClass="text-white bg-blue-700 sm:bg-transparent sm:text-blue-700"
-                             class:inactive="text-gray-900 hover:bg-gray-100 sm:hover:bg-transparent sm:hover:text-blue-700">
-                        Home
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink href="/counter" class="block py-2 px-3 rounded sm:p-0"
-                             ActiveClass="text-white bg-blue-700 sm:bg-transparent sm:text-blue-700"
-                             class:inactive="text-gray-900 hover:bg-gray-100 sm:hover:bg-transparent sm:hover:text-blue-700">
-                        Counter
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink href="/weather" class="block py-2 px-3 rounded sm:p-0"
-                             ActiveClass="text-white bg-blue-700 sm:bg-transparent sm:text-blue-700"
-                             class:inactive="text-gray-900 hover:bg-gray-100 sm:hover:bg-transparent sm:hover:text-blue-700">
-                        Weather
-                    </NavLink>
-                </li>
-            </ul>
+<nav class="border-b border-gray-200 bg-white">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex h-16 justify-between">
+            <div class="flex">
+                <div class="flex shrink-0 items-center">
+                </div>
+                <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
+                    @foreach (var link in _navLinks)
+                    {
+                        <a href="@link.Href"
+                           class="@GetLinkClasses(link.Href)">
+                            @Localizer[link.Text]
+                        </a>
+                    }
+                </div>
+            </div>
+            <div class="-mr-2 flex items-center sm:hidden">
+                <!-- Mobile menu button -->
+                <button type="button"
+                        class="relative inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-hidden"
+                        aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="absolute -inset-0.5"></span>
+                    <span class="sr-only">Open main menu</span>
+                    <!-- Menu open: "hidden", Menu closed: "block" -->
+                    <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                         aria-hidden="true" data-slot="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                    <!-- Menu open: "block", Menu closed: "hidden" -->
+                    <svg class="hidden size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                         aria-hidden="true" data-slot="icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="flex justify-end items-center p-4">
+                <select class="border rounded-md px-2 py-1 text-sm text-gray-700"
+                        @onchange="OnLanguageChange">
+                    @foreach (var culture in SupportedCultures.GetSupportedCultures())
+                    {
+                        <option value="@culture.TwoLetterLanguageName" selected="@IsSelected(culture.TwoLetterLanguageName)">
+                            @culture.DisplayName
+                        </option>
+                    }
+                </select>
+            </div>
         </div>
     </div>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="@($"sm:hidden {(isMobileMenuOpen ? "block" : "hidden")}")">
-        <ul class="px-4 pt-4 pb-3 space-y-1 font-medium">
-            <li>
-                <NavLink href="/" class="block py-2 px-4 rounded"
-                         ActiveClass="text-white bg-blue-700"
-                         class:inactive="text-gray-900 hover:bg-gray-100">
-                    Home
-                </NavLink>
-            </li>
-            <li>
-                <NavLink href="/counter" class="block py-2 px-4 rounded"
-                         ActiveClass="text-white bg-blue-700"
-                         class:inactive="text-gray-900 hover:bg-gray-100">
-                    Counter
-                </NavLink>
-            </li>
-            <li>
-                <NavLink href="/weather" class="block py-2 px-4 rounded"
-                         ActiveClass="text-white bg-blue-700"
-                         class:inactive="text-gray-900 hover:bg-gray-100">
-                    Weather
-                </NavLink>
-            </li>
-        </ul>
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <div class="sm:hidden" id="mobile-menu">
+        <div class="space-y-1 pt-2 pb-3">
+            @foreach (var link in _navLinks)
+            {
+                <a href="@link.Href"
+                   class="inline-flex items-center px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors w-full sm:w-auto">
+                    @Localizer[link.Text]
+                </a>
+            }
+        </div>
     </div>
 </nav>
+
+@code {
+
+    private static readonly (string Text, string Href)[] _navLinks = [
+      ("Home", "/"), ("Profile Create", "/profile/create")
+    ];
+
+    private Task OnLanguageChange(ChangeEventArgs e)
+    {
+        var selected = e.Value?.ToString() ?? "en";
+        Preferences.Set("lang", selected);
+
+        // Force reload of app or main page
+        var culture = new CultureInfo(selected);
+        CultureInfo.DefaultThreadCurrentCulture = culture;
+        CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+        // Reload to reflect localization
+        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+        return Task.CompletedTask;
+    }
+
+    private bool IsSelected(string value) =>
+      CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == new CultureInfo(value).TwoLetterISOLanguageName;
+
+    private string GetLinkClasses(string href)
+    {
+        var isActive = Navigation.Uri.EndsWith(href, StringComparison.OrdinalIgnoreCase);
+        return isActive
+          ? "inline-flex items-center justify-center px-3 py-1.5 rounded-md text-sm font-medium text-indigo-700 bg-indigo-100"
+          : "inline-flex items-center justify-center px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors";
+    }
+
+    private void SetActive(string text)
+    {
+        Navigation.NavigateTo(_navLinks.FirstOrDefault(link => link.Text == text).Href ?? "/");
+    }
+}
