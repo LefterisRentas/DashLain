@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace DashLain.Data.Entities;
+namespace DashLain.Entities.Models;
 
 public sealed class DbEntry {
     [Key]
@@ -8,7 +9,7 @@ public sealed class DbEntry {
 
     public Guid ProfileId { get; set; }
 
-    public DbProfile Profile { get; set; } = null!;
+    public DbProfile? Profile { get; set; }
 
     [Required]
     [MaxLength(100)]
@@ -30,12 +31,6 @@ public sealed class DbEntry {
 
     [MaxLength(2048)]
     public string Notes { get; set; } = string.Empty;
-
-    [Required]
-    public byte[] Salt { get; set; } = [];
-
-    [Required]
-    public byte[] InitialVector { get; set; } = [];
 
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
 

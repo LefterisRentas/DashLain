@@ -1,4 +1,6 @@
-﻿using DashLain.Services;
+using DashLain.Services;
+using DashLain.Entities;
+using DashLain.Handlers;
 using DashLain.Validation;
 using FluentValidation;
 using MediatR;
@@ -47,6 +49,31 @@ public static class MauiAppBuilderExtensions {
         builder.Services.AddSingleton<ProfileService>();
         builder.Services.AddSingleton<VaultService>();
 
+        return builder;
+    }
+
+    public static async Task<MauiAppBuilder> Debugging(this MauiAppBuilder builder)
+    {
+        var serviceProvider = builder.Services.BuildServiceProvider().CreateScope().ServiceProvider;
+        var mediator = serviceProvider.GetRequiredService<IMediator>();
+        var vaultService = serviceProvider.GetRequiredService<VaultService>();
+        var profileService = serviceProvider.GetRequiredService<ProfileService>();
+
+        var loginCommand = new LoginMasterPasswordCommand
+        {
+            Name = "Work",
+            Password = "test",
+        };
+        await profileService.LoginWithMasterPassword(loginCommand);
+
+        var addEntryCommand = new AddVaultEntryCommand
+        {
+            Email = "makis@gmail.com",
+            Title = "Work",
+            Password = "test",
+            Username = "makis"
+        };
+        var x = await vaultService.AddEntry(addEntryCommand);
         return builder;
     }
 }

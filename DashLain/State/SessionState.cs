@@ -6,7 +6,7 @@ public sealed class ProfileContext
 {
     public Guid Id { get; set; }
 
-    public required string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     public byte[] SessionKey { get; set; } = [];
 }

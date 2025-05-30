@@ -1,4 +1,5 @@
-﻿using DashLain.Handlers;
+using DashLain.Handlers;
+using DashLain.Models;
 using DashLain.State;
 using DashLain.Data;
 using DashLain.Data.Entities;
@@ -15,19 +16,20 @@ public sealed class VaultService {
         _cryptographer = cryptographer;
     }
 
-    public async Task AddEntry(AddVaultEntryCommand command)
+    public async Task<UIResult<bool>> AddEntry(AddVaultEntryCommand command)
     {
         var entry = new DbEntry
         {
             ProfileId = SessionState.Get().Id,
-            Title = Convert.ToBase64String(_cryptographer.Encrypt(command.Title, SessionState.Get().SessionKey)),
-            Username = Convert.ToBase64String(_cryptographer.Encrypt(command.Username, SessionState.Get().SessionKey)),
-            Password = _cryptographer.Encrypt(command.Password, SessionState.Get().SessionKey),
-            Email = Convert.ToBase64String(_cryptographer.Encrypt(command.Email, SessionState.Get().SessionKey)),
+            Title = Convert.ToBase64String(_cryptographer.Encrypt(command.Title)),
+            Username = Convert.ToBase64String(_cryptographer.Encrypt(command.Username)),
+            Password = _cryptographer.Encrypt(command.Password),
+            Email = Convert.ToBase64String(_cryptographer.Encrypt(command.Email)),
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
         };
         await _context.Entries.AddAsync(entry);
         await _context.SaveChangesAsync();
+        return UIResult.Succeed(true);
     }
 }
