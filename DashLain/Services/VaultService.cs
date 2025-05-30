@@ -3,6 +3,7 @@ using DashLain.Models;
 using DashLain.State;
 using DashLain.Data;
 using DashLain.Data.Entities;
+using DashLain.Entities.Models;
 
 namespace DashLain.Services;
 

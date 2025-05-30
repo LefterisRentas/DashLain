@@ -4,6 +4,7 @@ using DashLain.State;
 using Microsoft.EntityFrameworkCore;
 using DashLain.Data;
 using DashLain.Data.Entities;
+using DashLain.Entities.Models;
 
 namespace DashLain.Services;
 public sealed class ProfileService {

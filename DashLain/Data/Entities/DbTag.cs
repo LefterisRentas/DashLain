@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DashLain.Entities.Models;
 
 namespace DashLain.Data.Entities;
 

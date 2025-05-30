@@ -1,4 +1,5 @@
 ﻿using DashLain.Data.Entities;
+using DashLain.Entities.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DashLain.Data;

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using DashLain.Data.Entities;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DashLain.Entities.Models;
