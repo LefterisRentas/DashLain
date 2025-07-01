@@ -1,6 +1,78 @@
-﻿<Router AppAssembly="@typeof(MauiProgram).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)"/>
-        <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
-    </Found>
-</Router>
+@* 
+    Routes.razor - Main application router with authentication
+    Handles routing and authorization for the entire application
+*@
+@using DashLain.State
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.Extensions.Localization
+@using DashLain.Resources
+@inject NavigationManager Navigation
+@inject IStringLocalizer<SharedResources> L
+
+@* Main router component *@
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(MauiProgram).Assembly">
+        <Found Context="routeData">
+            @* Main content area with authorization *@
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)">
+                <NotAuthorized>
+                    @{
+                        // Redirect to login if not authorized
+                        var returnUrl = Navigation.ToBaseRelativePath(Navigation.Uri);
+                        if (!returnUrl.StartsWith("login", StringComparison.OrdinalIgnoreCase))
+                        {
+                            Navigation.NavigateTo($"login?returnUrl={Uri.EscapeDataString(returnUrl)}", true);
+                        }
+                    }
+                </NotAuthorized>
+                <Authorizing>
+                    @* Show loading spinner while authorizing *@
+                    <div class="flex justify-center items-center min-h-screen">
+                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+                    </div>
+                </Authorizing>
+            </AuthorizeRouteView>
+            
+            @* Auto-focus on main heading for better accessibility *@
+            <FocusOnNavigate RouteData="@routeData" Selector="h1"/>
+        </Found>
+        
+        @* 404 - Page Not Found *@
+        <NotFound>
+            <LayoutView Layout="@typeof(Layout.MainLayout)">
+                                <div class="p-6">
+                    <h1 class="text-2xl font-bold text-gray-900">@L["Page not found"]</h1>
+                    <p class="mt-2 text-gray-600">@L["Sorry, there's nothing at this address."]</p>
+                    <a href="/" 
+                       class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        @L["Go to home page"]
+                    </a>
+                </div>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
+
+@code {
+    // Component initialization
+    protected override void OnInitialized()
+    {
+        // Subscribe to navigation events if needed
+        Navigation.LocationChanged += HandleLocationChanged;
+    }
+
+    private void HandleLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        // Handle navigation changes if needed
+    }
+
+    // Clean up event subscriptions
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= HandleLocationChanged;
+    }
+}

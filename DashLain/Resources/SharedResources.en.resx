@@ -1,4 +1,4 @@
-﻿<root>
+<root>
     <resheader name="resmimetype">
         <value>text/microsoft-resx</value>
     </resheader>
@@ -31,5 +31,17 @@
     </data>
     <data name="Password must contain a special character." xml:space="preserve">
         <value>Password must contain a special character.</value>
+    </data>
+    <data name="Page not found" xml:space="preserve">
+        <value>Page not found</value>
+    </data>
+    <data name="Sorry, there's nothing at this address." xml:space="preserve">
+        <value>Sorry, there's nothing at this address.</value>
+    </data>
+    <data name="Go to home page" xml:space="preserve">
+        <value>Go to home page</value>
+    </data>
+    <data name="Open main menu" xml:space="preserve">
+        <value>Open main menu</value>
     </data>
 </root>

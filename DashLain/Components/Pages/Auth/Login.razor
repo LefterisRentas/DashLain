@@ -1,0 +1,143 @@
+@page "/login"
+@page "/login/{ReturnUrl?}"
+@using DashLain.Handlers
+@using DashLain.Models
+@using DashLain.State
+@using Microsoft.AspNetCore.WebUtilities
+@using Microsoft.Extensions.Primitives
+@using Microsoft.Extensions.Localization
+@inject IMediator Mediator
+@inject NavigationManager Navigation
+@inject IStringLocalizer<Login> Localizer
+
+<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                @Localizer["Sign in to your account"]
+            </h2>
+        </div>
+
+        <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            @if (_errorMessage != null)
+            {
+                <div class="mb-4 bg-red-50 border-l-4 border-red-400 p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-700">@_errorMessage</p>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <form class="space-y-6" @onsubmit="HandleLogin">
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">@Localizer["Username"]</label>
+                    <div class="mt-1">
+                        <input id="name" @bind="_loginCommand.Name" required
+                               class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">@Localizer["Password"]</label>
+                    <div class="mt-1">
+                        <input id="password" type="password" @bind="_loginCommand.Password" required
+                               class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" />
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="text-sm">
+                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
+                            @Localizer["Forgot your password?"]
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" disabled="@_isLoading"
+                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                        @if (_isLoading)
+                        {
+                            <span class="inline-flex items-center">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                @Localizer["Signing in..."]
+                            </span>
+                        }
+                        else
+                        {
+                            @Localizer["Sign in"]
+                        }
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">
+                            @Localizer["Or"]
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mt-6">
+                    <a href="/profile/create" class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        @Localizer["Create a new account"]
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string? ReturnUrl { get; set; }
+
+    private LoginMasterPasswordCommand _loginCommand = new();
+    private bool _isLoading = false;
+    private string? _errorMessage;
+    private string? _returnUrl;
+
+    private async Task HandleLogin()
+    {
+        _isLoading = true;
+        _errorMessage = null;
+
+        try
+        {
+            var result = await Mediator.Send(_loginCommand);
+            if (result.IsSuccess)
+            {
+                // Redirect to return URL or home page on successful login
+                Navigation.NavigateTo(string.IsNullOrEmpty(_returnUrl) ? "/" : _returnUrl);
+            }
+            else
+            {
+                _errorMessage = result.Errors?.FirstOrDefault() ?? Localizer["Invalid login attempt"];
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = Localizer["An error occurred while trying to sign in"];
+            Console.Error.WriteLine(ex);
+        }
+        finally
+        {
+            _isLoading = false;
+            StateHasChanged();
+        }
+    }
+}

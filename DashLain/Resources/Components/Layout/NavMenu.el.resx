@@ -1,4 +1,4 @@
-﻿<root>
+<root>
     <resheader name="resmimetype">
         <value>text/microsoft-resx</value>
     </resheader>
@@ -14,7 +14,25 @@
     <data name="Home" xml:space="preserve">
         <value>Σπίτι</value>
     </data>
-    <data name="Profile Create" xml:space="preserve">
-        <value>Δημιουργία Προφίλ</value>
+    <data name="My Profile" xml:space="preserve">
+        <value>Το προφίλ μου</value>
+    </data>
+    <data name="Open main menu" xml:space="preserve">
+        <value>Άνοιγμα κυρίως μενού</value>
+    </data>
+    <data name="Login" xml:space="preserve">
+        <value>Σύνδεση</value>
+    </data>
+    <data name="Logout" xml:space="preserve">
+        <value>Αποσύνδεση</value>
+    </data>
+    <data name="Hello" xml:space="preserve">
+        <value>Γειά σου, </value>
+    </data>
+    <data name="Categories" xml:space="preserve">
+        <value>Κατηγορίες</value>
+    </data>
+    <data name="Entries" xml:space="preserve">
+        <value>Εγγραφές</value>
     </data>
 </root>
