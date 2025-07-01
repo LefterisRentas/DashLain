@@ -1,7 +1,9 @@
 @using System.Globalization
 @using DashLain.Constants
+@using DashLain.State
 @inject NavigationManager Navigation
 @inject Microsoft.Extensions.Localization.IStringLocalizer<DashLain.Resources.Components.Layout.NavMenu> Localizer
+@inject IMediator Mediator
 
 <nav class="border-b border-gray-200 bg-white">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -12,9 +14,27 @@
                 <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                     @foreach (var link in _navLinks)
                     {
-                        <a href="@link.Href"
-                           class="@GetLinkClasses(link.Href)">
-                            @Localizer[link.Text]
+                        @if (!link.RequireAuth || _isAuthenticated)
+                        {
+                            <a href="@link.Href"
+                               class="@GetLinkClasses(link.Href)">
+                                @Localizer[link.Text]
+                            </a>
+                        }
+                    }
+                    @if (_isAuthenticated)
+                    {
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-700 mr-4">Hello, @_username</span>
+                            <button @onclick="Logout" class="text-sm text-gray-500 hover:text-gray-700">
+                                @Localizer["Logout"]
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <a href="/login" class="@GetLinkClasses("/login") text-indigo-600 hover:text-indigo-900">
+                            @Localizer["Login"]
                         </a>
                     }
                 </div>
@@ -38,7 +58,11 @@
                     </svg>
                 </button>
             </div>
-            <div class="flex justify-end items-center p-4">
+            <div class="flex justify-end items-center p-4 space-x-4">
+                @if (_isAuthenticated)
+                {
+                    <span class="text-sm text-gray-700 hidden sm:inline">@_username</span>
+                }
                 <select class="border rounded-md px-2 py-1 text-sm text-gray-700"
                         @onchange="OnLanguageChange">
                     @foreach (var culture in SupportedCultures.GetSupportedCultures())
@@ -68,9 +92,15 @@
 
 @code {
 
-    private static readonly (string Text, string Href)[] _navLinks = [
-      ("Home", "/"), ("Profile Create", "/profile/create")
+    private static readonly (string Text, string Href, bool RequireAuth)[] _navLinks = [
+        ("Home", "/", false),
+        ("My Profile", "/profile", true),
+        ("Categories", "/categories", true),
+        ("Entries", "/entries", true)
     ];
+    
+    private bool _isAuthenticated = false;
+    private string? _username;
 
     private Task OnLanguageChange(ChangeEventArgs e)
     {
@@ -98,8 +128,31 @@
           : "inline-flex items-center justify-center px-3 py-1.5 rounded-md text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors";
     }
 
+    protected override void OnInitialized()
+    {
+        UpdateAuthState();
+    }
+
+    private void UpdateAuthState()
+    {
+        _isAuthenticated = SessionState.IsAuthenticated;
+        if (_isAuthenticated)
+        {
+            var context = SessionState.Get();
+            _username = context.Name;
+        }
+    }
+
     private void SetActive(string text)
     {
         Navigation.NavigateTo(_navLinks.FirstOrDefault(link => link.Text == text).Href ?? "/");
+    }
+    
+    private async Task Logout()
+    {
+        SessionState.Clear();
+        _isAuthenticated = false;
+        _username = null;
+        Navigation.NavigateTo("/login");
     }
 }

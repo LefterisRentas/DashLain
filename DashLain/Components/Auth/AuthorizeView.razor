@@ -1,0 +1,77 @@
+@using DashLain.State
+@typeparam TItem
+
+@if (_isAuthorizing)
+{
+    @if (Authorizing != null)
+    {
+        @Authorizing
+    }
+    else
+    {
+        <div class="flex justify-center items-center p-4">
+            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500"></div>
+        </div>
+    }
+}
+else if (IsAuthorized)
+{
+    @if (Authorized != null)
+    {
+        @Authorized
+    }
+    else if (ChildContent != null)
+    {
+        @ChildContent
+    }
+}
+else if (NotAuthorized != null)
+{
+    @NotAuthorized
+}
+
+@code {
+    [Parameter] public RenderFragment? Authorized { get; set; }
+    [Parameter] public RenderFragment? NotAuthorized { get; set; }
+    [Parameter] public RenderFragment? Authorizing { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public TItem? Item { get; set; }
+    [Parameter] public Func<TItem, bool>? Policy { get; set; }
+
+    private bool _isAuthorizing = true;
+    private bool _isAuthorized = false;
+    private bool _initialized = false;
+
+    protected override async void OnInitialized()
+    {
+        base.OnInitialized();
+        _initialized = true;
+        await UpdateAuthStateAsync();
+    }
+
+    private bool IsAuthorized
+    {
+        get
+        {
+            if (!_initialized) return false;
+            return _isAuthorized;
+        }
+    }
+
+    public async void Refresh()
+    {
+        _isAuthorizing = true;
+        _isAuthorized = false;
+        await UpdateAuthStateAsync();
+    }
+
+    private async Task UpdateAuthStateAsync()
+    {
+        await InvokeAsync(() =>
+        {
+            _isAuthorized = SessionState.IsAuthenticated && (Policy == null || (Item != null && Policy(Item)));
+            _isAuthorizing = false;
+            StateHasChanged();
+        });
+    }
+}

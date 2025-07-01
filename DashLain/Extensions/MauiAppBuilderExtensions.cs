@@ -66,14 +66,14 @@ public static class MauiAppBuilderExtensions {
         };
         await profileService.LoginWithMasterPassword(loginCommand);
 
-        var addEntryCommand = new AddVaultEntryCommand
-        {
-            Email = "makis@gmail.com",
-            Title = "Work",
-            Password = "test",
-            Username = "makis"
-        };
-        var x = await vaultService.AddEntry(addEntryCommand);
+        // var addEntryCommand = new AddVaultEntryCommand
+        // {
+        //     Email = "makis@gmail.com",
+        //     Title = "Work",
+        //     Password = "test",
+        //     Username = "makis"
+        // };
+        // var x = await vaultService.AddEntry(addEntryCommand);
         return builder;
     }
 }
